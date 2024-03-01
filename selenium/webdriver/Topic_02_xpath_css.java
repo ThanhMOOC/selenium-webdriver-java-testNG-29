@@ -25,12 +25,12 @@ public class Topic_02_xpath_css {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
         driver.manage().window().maximize();
 
+        // dùn trong BeforeClass rồi thì không cần dùng ở TC nữa
         driver.get("https://alada.vn/tai-khoan/dang-ky.html");
     }
 
     @Test
     public void TC_01_Register_Empty_Data() {
-        driver.get("https://alada.vn/tai-khoan/dang-ky.html");
         // Action
         driver.findElement(By.id("txtFirstname")).sendKeys("");
         driver.findElement(By.id("txtEmail")).sendKeys("");
@@ -51,26 +51,91 @@ public class Topic_02_xpath_css {
 
     @Test
     public void TC_02_Register_Invalid_Email() {
-
+        // Action
+        driver.findElement(By.cssSelector("input#txtFirstname")).sendKeys("");
+        driver.findElement(By.cssSelector("input#txtEmail")).sendKeys("mooctacthanh");
+        driver.findElement(By.cssSelector("input#txtCEmail")).sendKeys("");
+        driver.findElement(By.cssSelector("input#txtPassword")).sendKeys("");
+        driver.findElement(By.cssSelector("input#txtCPassword")).sendKeys("");
+        driver.findElement(By.cssSelector("input#txtPhone")).sendKeys("");
+        driver.findElement(By.xpath("//form[@id='frmLogin']//button[text()='ĐĂNG KÝ']")).click();
+        // driver.findElement(By.cssSelector("input#form#frmLogin button.btn_pink_sm")).click();
+        // Verify
+        Assert.assertEquals(driver.findElement(By.id("txtFirstname-error")).getText(), "Vui lòng nhập họ tên");
+        Assert.assertEquals(driver.findElement(By.id("txtEmail-error")).getText(), "Vui lòng nhập email hợp lệ");
+        Assert.assertEquals(driver.findElement(By.id("txtCEmail-error")).getText(), "Vui lòng nhập lại địa chỉ email");
+        Assert.assertEquals(driver.findElement(By.id("txtPassword-error")).getText(), "Vui lòng nhập mật khẩu");
+        Assert.assertEquals(driver.findElement(By.id("txtCPassword-error")).getText(), "Vui lòng nhập lại mật khẩu");
+        Assert.assertEquals(driver.findElement(By.id("txtPhone-error")).getText(), "Vui lòng nhập số điện thoại.");
     }
     @Test
     public void TC_03_Register_Incorrect_Email() {
-
+        // Action
+        driver.findElement(By.cssSelector("input#txtFirstname")).sendKeys("");
+        driver.findElement(By.cssSelector("input#txtEmail")).sendKeys("mooctacthanh@gmail.com");
+        driver.findElement(By.cssSelector("input#txtCEmail")).sendKeys("mooctacthanh248@gmail.com");
+        driver.findElement(By.cssSelector("input#txtPassword")).sendKeys("");
+        driver.findElement(By.cssSelector("input#txtCPassword")).sendKeys("");
+        driver.findElement(By.cssSelector("input#txtPhone")).sendKeys("");
+        driver.findElement(By.xpath("//form[@id='frmLogin']//button[text()='ĐĂNG KÝ']")).click();
+        // driver.findElement(By.cssSelector("input#form#frmLogin button.btn_pink_sm")).click();
+        // Verify
+        Assert.assertEquals(driver.findElement(By.id("txtFirstname-error")).getText(), "Vui lòng nhập họ tên");
+        Assert.assertEquals(driver.findElement(By.id("txtCEmail-error")).getText(), "Email nhập lại không đúng");
+        Assert.assertEquals(driver.findElement(By.id("txtPassword-error")).getText(), "Vui lòng nhập mật khẩu");
+        Assert.assertEquals(driver.findElement(By.id("txtCPassword-error")).getText(), "Vui lòng nhập lại mật khẩu");
+        Assert.assertEquals(driver.findElement(By.id("txtPhone-error")).getText(), "Vui lòng nhập số điện thoại.");
     }
 
     @Test
-    public void TC_03_Register_Password_Less_Than_6_Chars() {
-
+    public void TC_04_Register_Password_Less_Than_6_Chars() {
+        // Action
+        driver.findElement(By.cssSelector("input#txtFirstname")).sendKeys("");
+        driver.findElement(By.cssSelector("input#txtEmail")).sendKeys("mooctacthanh@gmail.com");
+        driver.findElement(By.cssSelector("input#txtCEmail")).sendKeys("mooctacthanh@gmail.com");
+        driver.findElement(By.cssSelector("input#txtPassword")).sendKeys("111");
+        driver.findElement(By.cssSelector("input#txtCPassword")).sendKeys("");
+        driver.findElement(By.cssSelector("input#txtPhone")).sendKeys("");
+        driver.findElement(By.xpath("//form[@id='frmLogin']//button[text()='ĐĂNG KÝ']")).click();
+        // driver.findElement(By.cssSelector("input#form#frmLogin button.btn_pink_sm")).click();
+        // Verify
+        Assert.assertEquals(driver.findElement(By.id("txtFirstname-error")).getText(), "Vui lòng nhập họ tên");
+        Assert.assertEquals(driver.findElement(By.id("txtPassword-error")).getText(), "Mật khẩu phải có ít nhất 6 ký tự");
+        Assert.assertEquals(driver.findElement(By.id("txtCPassword-error")).getText(), "Vui lòng nhập lại mật khẩu");
+        Assert.assertEquals(driver.findElement(By.id("txtPhone-error")).getText(), "Vui lòng nhập số điện thoại.");
     }
 
     @Test
-    public void TC_03_Register_Incorrect_Password() {
-
+    public void TC_05_Register_Incorrect_Password() {
+        // Action
+        driver.findElement(By.cssSelector("input#txtFirstname")).sendKeys("");
+        driver.findElement(By.cssSelector("input#txtEmail")).sendKeys("mooctacthanh@gmail.com");
+        driver.findElement(By.cssSelector("input#txtCEmail")).sendKeys("mooctacthanh@gmail.com");
+        driver.findElement(By.cssSelector("input#txtPassword")).sendKeys("111111");
+        driver.findElement(By.cssSelector("input#txtCPassword")).sendKeys("222222");
+        driver.findElement(By.cssSelector("input#txtPhone")).sendKeys("");
+        driver.findElement(By.xpath("//form[@id='frmLogin']//button[text()='ĐĂNG KÝ']")).click();
+        // driver.findElement(By.cssSelector("input#form#frmLogin button.btn_pink_sm")).click();
+        // Verify
+        Assert.assertEquals(driver.findElement(By.id("txtFirstname-error")).getText(), "Vui lòng nhập họ tên");
+        Assert.assertEquals(driver.findElement(By.id("txtCPassword-error")).getText(), "Mật khẩu bạn nhập không khớp");
+        Assert.assertEquals(driver.findElement(By.id("txtPhone-error")).getText(), "Vui lòng nhập số điện thoại.");
     }
 
     @Test
-    public void TC_03_Register_Invalid_Phone() {
+    public void TC_06_Register_Invalid_Phone() {
+        // Action
+        driver.findElement(By.cssSelector("input#txtFirstname")).sendKeys("");
+        driver.findElement(By.cssSelector("input#txtEmail")).sendKeys("mooctacthanh@gmail.com");
+        driver.findElement(By.cssSelector("input#txtCEmail")).sendKeys("mooctacthanh@gmail.com");
+        driver.findElement(By.cssSelector("input#txtPassword")).sendKeys("111111");
+        driver.findElement(By.cssSelector("input#txtCPassword")).sendKeys("111111");
+        driver.findElement(By.cssSelector("input#txtPhone")).sendKeys("111");
+        driver.findElement(By.xpath("//form[@id='frmLogin']//button[text()='ĐĂNG KÝ']")).click();
+        // driver.findElement(By.cssSelector("input#form#frmLogin button.btn_pink_sm")).click();
 
+        // Verify
+        Assert.assertEquals(driver.findElement(By.id("txtPhone-error")).getText(), "Số điện thoại bắt đầu bằng: 09 - 03 - 012 - 016 - 018 - 019 - 088 - 03 - 05 - 07 - 08");
     }
 
     @AfterClass
