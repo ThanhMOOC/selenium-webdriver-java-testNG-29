@@ -42,7 +42,7 @@ public class Topic_00_template {
 
     private void sleepInSecond(long sec) {
         try {
-            Thread.sleep(sec);
+            Thread.sleep(sec*1000);
         } catch (InterruptedException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

@@ -108,7 +108,7 @@ public class Topic_06_Webbrowser_Command_01 {
             Thread.sleep(sec*1000);
         } catch (InterruptedException e) {
             // TODO Auto-generated catch block
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 
