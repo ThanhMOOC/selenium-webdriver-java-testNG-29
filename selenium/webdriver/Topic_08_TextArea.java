@@ -2,23 +2,18 @@ package webdriver;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.time.Duration;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
-import static java.time.Duration.*;
+import static java.time.Duration.ofSeconds;
 
 // test
-public class Topic_07_Textbox_TextArea_Dropdown_CustomDropdown {
+public class Topic_08_TextArea {
     WebDriver driver;
     String projectPath = System.getProperty("user.dir");
     String osName = System.getProperty("os.name");
@@ -59,62 +54,7 @@ public class Topic_07_Textbox_TextArea_Dropdown_CustomDropdown {
     }
 
     @Test
-    public void TC_01_textbox_textarea() {
-        // step 01
-        driver.get("http://live.techpanda.org/");
-
-        // step 02
-        driver.findElement(By.xpath("//div[@class='footer']//a[@title='My Account']")).click();
-
-        // step 03
-        driver.findElement(By.xpath("//a[@title='Create an Account']")).click();
-
-        // sử dụng explicitwait để chờ register_button
-        // explicitWait.until(ExpectedConditions.visibilityOf(register_button));
-
-        // step 04
-
-        driver.findElement(By.cssSelector("input#firstname")).sendKeys(firstname);
-        driver.findElement(By.cssSelector("input#lastname")).sendKeys(lastname);
-        driver.findElement(By.cssSelector("input#email_address")).sendKeys(email);
-        driver.findElement(By.cssSelector("input#password")).sendKeys(pwd);
-        driver.findElement(By.cssSelector("input#confirmation")).sendKeys(pwd);
-
-        // step 05
-        driver.findElement(By.xpath("//button[@title='Register']")).click();
-
-        // step 06
-        Assert.assertEquals(driver.findElement(By.cssSelector("li.success-msg span")).getText(), "Thank you for registering with Main Website Store.");
-
-        // step 07
-
-        String contactInfo = driver.findElement(By.xpath("//h3[text()='Contact Information']/parent::div/following-sibling::div[@class='box-content']/p")).getText();
-
-        Assert.assertTrue(contactInfo.contains(fullname));
-        Assert.assertTrue(contactInfo.contains(email));
-
-        // log out
-        driver.findElement(By.cssSelector("a.skip-account")).click();
-        driver.findElement(By.cssSelector("a[title='Log Out']")).click();
-
-        sleepInSecond(3);
-
-        // log in
-        driver.findElement(By.xpath("//div[@class='footer']//a[@title='My Account']")).click();
-
-        sleepInSecond(3);
-
-        driver.findElement(By.cssSelector("input#email")).sendKeys(email);
-        driver.findElement(By.cssSelector("input#pass")).sendKeys(pwd);
-        driver.findElement(By.cssSelector("button#send2")).click();
-
-        Assert.assertTrue(contactInfo.contains(fullname));
-        Assert.assertTrue(contactInfo.contains(email));
-
-    }
-
-    @Test
-    public void TC_02_textbox_textarea() {
+    public void TC_02_textarea() {
 
         // step 01
         driver.get("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
