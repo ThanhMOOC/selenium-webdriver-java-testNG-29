@@ -25,7 +25,7 @@ import java.util.Optional;
 import static java.time.Duration.ofSeconds;
 
 // test
-public class Topic_13_Accept_Alert_dangbiloiversion {
+public class Topic_13_Accept_Alert {
     WebDriver driver;
     String projectPath = System.getProperty("user.dir");
     String osName = System.getProperty("os.name");
