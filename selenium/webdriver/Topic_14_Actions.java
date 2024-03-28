@@ -10,6 +10,8 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import javax.swing.*;
+import java.io.*;
+import java.nio.charset.Charset;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,9 +19,9 @@ import java.util.List;
 // test
 public class Topic_14_Actions {
     WebDriver driver;
-    String osName = System.getProperty("os.name");
 
     Actions actions;
+    JavascriptExecutor javascriptExecutor;
 
     @BeforeClass
     public void beforeClass() {
@@ -33,6 +35,8 @@ public class Topic_14_Actions {
         driver.manage().window().maximize();
 
         actions = new Actions(driver);
+
+        javascriptExecutor = (JavascriptExecutor) driver;
     }
 
     @Test
@@ -188,6 +192,31 @@ public class Topic_14_Actions {
         Assert.assertFalse(driver.findElement(By.cssSelector("li.context-menu-icon-paste")).isDisplayed());
     }
 
+    @Test
+    public void TC_08_Drag_Drop_With_JS() throws IOException {
+        // dùng cho HTML5 và chỉ đc sử dụng CSS
+
+        // truy cập trang
+        driver.get("https://automationfc.github.io/drag-drop-html5/");
+
+        String columnA = "div#column-a";
+        String columnB = "div#column-b";
+
+        String projectPath = System.getProperty("user.dir");
+        String dragAndDropFilePath = projectPath + "/dragAndDrop/drag_and_drop_helper.js";
+
+        String jsContentFile = getContentFile(dragAndDropFilePath);
+
+        jsContentFile = jsContentFile + "$('" + columnA + "').simulateDragDrop({dropTarget: '" + columnB + "'});";
+
+        javascriptExecutor.executeScript(jsContentFile);
+        sleepInSecond(3);
+
+        javascriptExecutor.executeScript(jsContentFile);
+        sleepInSecond(3);
+
+    }
+
     private void sleepInSecond(long sec) {
         try {
             Thread.sleep(sec*1000);
@@ -197,8 +226,25 @@ public class Topic_14_Actions {
         }
     }
 
+    public String getContentFile(String filePath) throws IOException {
+        Charset cs = Charset.forName("UTF-8");
+        FileInputStream stream = new FileInputStream(filePath);
+        try {
+            Reader reader = new BufferedReader(new InputStreamReader(stream, cs));
+            StringBuilder builder = new StringBuilder();
+            char[] buffer = new char[8192];
+            int read;
+            while ((read = reader.read(buffer, 0, buffer.length)) > 0) {
+                builder.append(buffer, 0, read);
+            }
+            return builder.toString();
+        } finally {
+            stream.close();
+        }
+    }
+
     @AfterClass
     public void afterClass() {
-        driver.quit();
+        // driver.quit();
     }
 }
